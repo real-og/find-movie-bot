@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import uuid
 
 
 class TelegramUser(models.Model):
@@ -25,7 +26,8 @@ class TelegramUser(models.Model):
         self.save()
 
 class Movie(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
+    # id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     code = models.IntegerField(unique=True)
     has_oscar = models.BooleanField(default=False)
@@ -35,12 +37,22 @@ class Movie(models.Model):
     director = models.CharField(max_length=100)
     actors = models.TextField()
     rating = models.DecimalField(max_digits=3, decimal_places=1)
+    genre_choices = (
+        ('action', 'Action'),
+        ('comedy', 'Comedy'),
+        ('drama', 'Drama'),
+        ('horror', 'Horror'),
+        ('romance', 'Romance'),
+        ('sci-fi', 'Sci-Fi'),
+        ('thriller', 'Thriller'),
+    )
+    genre = models.CharField(max_length=20, choices=genre_choices)
 
     def __str__(self):
         return self.title
     
 class Serial(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
     title = models.CharField(max_length=200)
     code = models.IntegerField(unique=True)
     has_oscar = models.BooleanField(default=False)
@@ -50,6 +62,16 @@ class Serial(models.Model):
     director = models.CharField(max_length=100)
     actors = models.TextField()
     rating = models.DecimalField(max_digits=3, decimal_places=1)
+    genre_choices = (
+        ('action', 'Action'),
+        ('comedy', 'Comedy'),
+        ('drama', 'Drama'),
+        ('horror', 'Horror'),
+        ('romance', 'Romance'),
+        ('sci-fi', 'Sci-Fi'),
+        ('thriller', 'Thriller'),
+    )
+    genre = models.CharField(max_length=40, choices=genre_choices, blank=True)
 
     def __str__(self):
         return self.title

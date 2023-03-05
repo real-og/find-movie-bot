@@ -8,6 +8,8 @@ class UserRegister(StatesGroup):
     password = State()
     entrance = State()
     menu = State()
+    choose_movie_genre = State()
+    choose_serial_genre = State()
     rand_movie = State()
     rand_series = State()
     receive_code = State()

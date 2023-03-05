@@ -22,6 +22,11 @@ c_registeration_failed = "Ошибка регистрации 🫤\n"
 
 c_about_us = "О нас 👁️"
 
+
+
+
+from typing import Union
+from robot.models import TelegramUser, Movie, Serial
 entrance = "Для начала подпишись на канал"
 menu = "ты в меню"
 genres = 'выбирай жанр'
@@ -31,14 +36,10 @@ but6 = 'but6'
 def compose_saved(id: int) -> str:
     return "Избранное"
 
-def compose_oskar() -> str:
-    return "оскар"
-
-def compose_random_movie(genre: str) -> str:
-    return 'рандомный фильм'
-
-def compose_random_series(genre: str) -> str:
-    return 'рандомный сериал'
+def compose_random(film: Union[Movie, Serial, None]) -> str:
+    if film == None:
+        return 'Таких пока нет'
+    return f"{film.title} код {film.code}"
 
 def compose_film_full(film_id: int) -> str:
     return 'Полное описание сериала или фильма'

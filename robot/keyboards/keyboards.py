@@ -19,9 +19,12 @@ genres_kb = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton('хорр
                                                   InlineKeyboardButton('триллер', callback_data='thriller'),
                                                   InlineKeyboardButton('комедия', callback_data='comedy'),
                                                   InlineKeyboardButton('драма', callback_data='drama'),
-                                                  InlineKeyboardButton('мелодрама', callback_data='mdrama'),
+                                                  InlineKeyboardButton('романтик', callback_data='romance'),
+                                                  InlineKeyboardButton('Экшн', callback_data='action'),
+                                                  InlineKeyboardButton('sci-fi', callback_data='sci-fi'),
                                                   )
 
 about_film_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('О фильме', callback_data='about'),
                                            InlineKeyboardButton('Добавить в избранное', callback_data='add'),
+                                           InlineKeyboardButton('Назад', callback_data='menu'),
                                           )
