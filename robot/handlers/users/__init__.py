@@ -1,4 +1,4 @@
 from . import random_movie
-from . import start
+from . import oskar
 from . import enter_code
-from . import echo
+from . import menu

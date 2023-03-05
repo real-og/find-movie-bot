@@ -38,6 +38,17 @@ async def check_sub(callback: types.CallbackQuery):
             await callback.message.answer(entrance, reply_markup=kb.entrance_kb)
     await bot.answer_callback_query(callback.id)
 
+# @dp.callback_query_handler(lambda call: call.data == "oskar", state=UserRegister.menu)
+# async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
+#     movie = await logic.get_random_oscar()
+#     if movie == None:
+#         await callback.message.answer(no_film, reply_markup=kb.genres_kb)
+#         return
+#     await state.update_data(cur_film=movie.id)
+#     text = compose_random(movie)
+#     await callback.message.answer(text, reply_markup=kb.about_film_kb)
+#     await UserRegister.view_movie_short.set()
+#     await bot.answer_callback_query(callback.id)
 
 @dp.callback_query_handler(state=UserRegister.menu)
 async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
@@ -54,13 +65,23 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
         data = await state.get_data()
         films = await logic.get_by_codes(data['saved'])
         await callback.message.answer(compose_saved(films))
-    elif callback.data == 'oskar':
-        await callback.message.answer()
+    # elif callback.data == 'oskar':
+    #     await callback.message.answer()
     elif callback.data == 'but6':
         await callback.message.answer(but6)
     await bot.answer_callback_query(callback.id)
 
-
+# @dp.callback_query_handler(lambda call: call.data == "oscar", state=UserRegister.menu)
+# async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
+#     movie = await logic.get_random_oscar()
+#     if movie == None:
+#         await callback.message.answer(no_film, reply_markup=kb.genres_kb)
+#         return
+#     await state.update_data(cur_film=movie.id)
+#     text = compose_random(movie)
+#     await callback.message.answer(text, reply_markup=kb.about_film_kb)
+#     await UserRegister.view_movie_short.set()
+#     await bot.answer_callback_query(callback.id)
 
 
 

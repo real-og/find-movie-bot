@@ -45,12 +45,14 @@ async def get_random_serial(genre) -> Optional[Movie]:
         return None
     return random.choice(series)
 
-async def get_random_oscar(genre) -> Union[Movie, Serial]:
+async def get_random_oscar() -> Union[Movie, Serial, None]:
     candidates = []
     async for film in Movie.objects.filter(has_oscar=True):
         candidates.append(film)
     async for film in Movie.objects.filter(has_oscar=True):
         candidates.append(film)
+    if len(candidates) == 0:
+        return None
     return random.choice(candidates)
 
 
