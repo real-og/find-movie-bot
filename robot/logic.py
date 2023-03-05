@@ -1,7 +1,8 @@
 from robot.models import Movie, Serial
 from django.db import models
 import random
-from typing import Union, ClassVar, Optional
+from typing import Union, Optional
+from asgiref.sync import sync_to_async
 
 async def get_by_id(id) -> Union[Movie, Serial, None]:
     res = None
@@ -58,4 +59,11 @@ async def get_by_genre(mod, genre) -> list:
     async for film in mod.objects.filter(genre=genre):
         res.append(film)
     return res
+
+async def get_by_codes(ids):
+    queryset = Movie.objects.filter(id__in=ids)
+    records = await sync_to_async(list)(queryset)
+    queryset = Serial.objects.filter(id__in=ids)
+    records2 = await sync_to_async(list)(queryset)
+    return records + records2
 

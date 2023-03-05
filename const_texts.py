@@ -1,3 +1,6 @@
+from robot.models import Movie, Serial
+from typing import Union
+
 def c_get_hello(full_name: str) -> str:
     return f"Salom, {full_name}!\nВы у нас новенький, "\
         "Вводите свои данные."
@@ -37,8 +40,13 @@ already_exists = 'Уже такое есть'
 
 no_film = 'таких фильмов пока нет'
 
-def compose_saved(id: int) -> str:
-    return "Избранное"
+def compose_saved(films: Union[Movie, Serial, None]) -> str:
+    if (films == None) or len(films) == 0:
+        return 'пусто'
+    text = 'Твои:\n'
+    for film in films:
+        text += f"{film.title} {film.actors}  {film.has_oscar}\n"
+    return text
 
 def compose_random(film: Union[Movie, Serial, None]) -> str:
     if film == None:

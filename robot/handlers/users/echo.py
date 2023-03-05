@@ -40,7 +40,7 @@ async def check_sub(callback: types.CallbackQuery):
 
 
 @dp.callback_query_handler(state=UserRegister.menu)
-async def handle_menu(callback: types.CallbackQuery):
+async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
     if callback.data == 'rand_movie':
         await callback.message.answer(genres, reply_markup=kb.genres_kb)
         await UserRegister.choose_movie_genre.set()
@@ -51,7 +51,9 @@ async def handle_menu(callback: types.CallbackQuery):
         await callback.message.answer(enter_code)
         await UserRegister.receive_code.set()
     elif callback.data == 'saved':
-        await callback.message.answer(compose_saved(callback.from_user.id))
+        data = await state.get_data()
+        films = await logic.get_by_codes(data['saved'])
+        await callback.message.answer(compose_saved(films))
     elif callback.data == 'oskar':
         await callback.message.answer()
     elif callback.data == 'but6':
@@ -59,17 +61,6 @@ async def handle_menu(callback: types.CallbackQuery):
     await bot.answer_callback_query(callback.id)
 
 
-@dp.message_handler(state=UserRegister.receive_code)
-async def send_welcome(message: types.Message, state: FSMContext):
-    movie = await logic.get_by_code(message.text)
-    if movie == None:
-        await message.answer(no_film, reply_markup=kb.menu_kb)
-        await UserRegister.menu.set()
-    else:
-        await state.update_data(cur_film=movie.id)
-        text = compose_film_full(movie)
-        await message.answer(text, reply_markup=kb.about_film_short_kb) 
-        await UserRegister.view_movie_short.set()
 
 
 
