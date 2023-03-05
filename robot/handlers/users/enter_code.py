@@ -13,7 +13,7 @@ from robot import logic
 async def send_welcome(message: types.Message, state: FSMContext):
     movie = await logic.get_by_code(message.text)
     if movie == None:
-        await message.answer(no_film, reply_markup=kb.menu_kb)
+        await message.answer(no_code, reply_markup=kb.menu_kb)
         await UserRegister.menu.set()
     else:
         await state.update_data(cur_film=movie.id)

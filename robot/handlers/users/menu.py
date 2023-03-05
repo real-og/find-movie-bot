@@ -18,11 +18,9 @@ from robot import logic
 channel_id = '-1001882056319'
 @dp.message_handler(commands=['start'], state="*")
 async def send_welcome(message: types.Message, state: FSMContext):
-    # res = await logic.get_by_id('707b4e4d-a7a8-45b4-b439-089ed5775fe2')
-    # print(res)
     await state.update_data(saved=[])
     await UserRegister.entrance.set()
-    await message.answer(entrance, reply_markup=kb.entrance_kb)
+    await message.answer(compose_greeting(message.from_user.first_name), reply_markup=kb.entrance_kb)
 
 @dp.callback_query_handler(state=UserRegister.entrance)
 async def check_sub(callback: types.CallbackQuery):
@@ -33,22 +31,13 @@ async def check_sub(callback: types.CallbackQuery):
             chat_member.status == ChatMemberStatus.CREATOR or
             chat_member.status == ChatMemberStatus.ADMINISTRATOR):
             await UserRegister.menu.set()
+            await callback.message.answer(succes_enter)
+            await callback.message.answer(help_mes)
             await callback.message.answer(menu, reply_markup=kb.menu_kb)
         else:
-            await callback.message.answer(entrance, reply_markup=kb.entrance_kb)
+            await callback.message.answer(compose_greeting(callback.from_user.first_name), reply_markup=kb.entrance_kb)
     await bot.answer_callback_query(callback.id)
 
-# @dp.callback_query_handler(lambda call: call.data == "oskar", state=UserRegister.menu)
-# async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
-#     movie = await logic.get_random_oscar()
-#     if movie == None:
-#         await callback.message.answer(no_film, reply_markup=kb.genres_kb)
-#         return
-#     await state.update_data(cur_film=movie.id)
-#     text = compose_random(movie)
-#     await callback.message.answer(text, reply_markup=kb.about_film_kb)
-#     await UserRegister.view_movie_short.set()
-#     await bot.answer_callback_query(callback.id)
 
 @dp.callback_query_handler(state=UserRegister.menu)
 async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
@@ -65,25 +54,9 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
         data = await state.get_data()
         films = await logic.get_by_codes(data['saved'])
         await callback.message.answer(compose_saved(films))
-    # elif callback.data == 'oskar':
-    #     await callback.message.answer()
-    elif callback.data == 'but6':
-        await callback.message.answer(but6)
+    elif callback.data == 'help_mes':
+        await callback.message.answer(help_mes, reply_markup=kb.menu_kb)
     await bot.answer_callback_query(callback.id)
-
-# @dp.callback_query_handler(lambda call: call.data == "oscar", state=UserRegister.menu)
-# async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
-#     movie = await logic.get_random_oscar()
-#     if movie == None:
-#         await callback.message.answer(no_film, reply_markup=kb.genres_kb)
-#         return
-#     await state.update_data(cur_film=movie.id)
-#     text = compose_random(movie)
-#     await callback.message.answer(text, reply_markup=kb.about_film_kb)
-#     await UserRegister.view_movie_short.set()
-#     await bot.answer_callback_query(callback.id)
-
-
 
 
 
