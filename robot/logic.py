@@ -17,7 +17,19 @@ async def get_by_id(id) -> Union[Movie, Serial, None]:
         pass
     return res
     
-    
+async def get_by_code(code: str) -> Union[Movie, Serial, None]:
+    res = None
+    try:
+        res = await Movie.objects.aget(code=code)
+        return res
+    except:
+        pass
+    try:
+        res = await Serial.objects.aget(code=code)
+        return res
+    except:
+        pass
+    return res
 
 
 async def get_random_movie(genre) -> Optional[Movie]:

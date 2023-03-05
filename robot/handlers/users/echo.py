@@ -59,17 +59,27 @@ async def handle_menu(callback: types.CallbackQuery):
     await bot.answer_callback_query(callback.id)
 
 
+@dp.message_handler(state=UserRegister.receive_code)
+async def send_welcome(message: types.Message, state: FSMContext):
+    movie = await logic.get_by_code(message.text)
+    if movie == None:
+        await message.answer(no_film, reply_markup=kb.menu_kb)
+        await UserRegister.menu.set()
+    else:
+        await state.update_data(cur_film=movie.id)
+        text = compose_film_full(movie)
+        await message.answer(text, reply_markup=kb.about_film_short_kb) 
+        await UserRegister.view_movie_short.set()
 
-    
-
-# @dp.callback_query_handler(state=UserRegister.choose_serial_genre)
-# async def handle_menu(callback: types.CallbackQuery):
-#     await UserRegister.view_series_short.set()
-#     text = compose_random_series(callback.data)
-#     await callback.message.answer(text, reply_markup=kb.about_film_kb)
 
 
-# Echo bot
+
+
+
+
+
+
+
 @dp.message_handler(state=None)
 async def bot_echo(message: types.Message):
     await message.answer(message.text)
