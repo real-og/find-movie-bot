@@ -26,7 +26,7 @@ class TelegramUser(models.Model):
         self.save()
 
 class Movie(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     # id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     code = models.IntegerField(unique=True)
@@ -52,7 +52,7 @@ class Movie(models.Model):
         return self.title
     
 class Serial(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     title = models.CharField(max_length=200)
     code = models.IntegerField(unique=True)
     has_oscar = models.BooleanField(default=False)

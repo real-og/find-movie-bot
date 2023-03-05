@@ -28,3 +28,8 @@ about_film_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('О фильме
                                            InlineKeyboardButton('Добавить в избранное', callback_data='add'),
                                            InlineKeyboardButton('Назад', callback_data='menu'),
                                           )
+
+about_film_short_kb = InlineKeyboardMarkup().add(
+                                           InlineKeyboardButton('Добавить в избранное', callback_data='add'),
+                                           InlineKeyboardButton('Назад', callback_data='menu'),
+                                          )

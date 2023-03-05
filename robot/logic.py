@@ -3,9 +3,21 @@ from django.db import models
 import random
 from typing import Union, ClassVar, Optional
 
-async def get_by_id(id) ->Union[Movie, Serial]:
-    res = await Movie.objects.aget(id=id)
+async def get_by_id(id) -> Union[Movie, Serial, None]:
+    res = None
+    try:
+        res = await Movie.objects.aget(id=id)
+        return res
+    except:
+        pass
+    try:
+        res = await Serial.objects.aget(id=id)
+        return res
+    except:
+        pass
     return res
+    
+    
 
 
 async def get_random_movie(genre) -> Optional[Movie]:
@@ -14,8 +26,10 @@ async def get_random_movie(genre) -> Optional[Movie]:
         return None
     return random.choice(movies)
 
-async def get_random_serial(genre) -> Serial:
+async def get_random_serial(genre) -> Optional[Movie]:
     series = await get_by_genre(Serial, genre)
+    if len(series) == 0:
+        return None
     return random.choice(series)
 
 async def get_random_oscar(genre) -> Union[Movie, Serial]:

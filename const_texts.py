@@ -32,6 +32,10 @@ menu = "ты в меню"
 genres = 'выбирай жанр'
 enter_code = 'вводи код'
 but6 = 'but6'
+added = 'Добавлено'
+already_exists = 'Уже такое есть'
+
+no_film = 'таких фильмов пока нет'
 
 def compose_saved(id: int) -> str:
     return "Избранное"
@@ -41,5 +45,5 @@ def compose_random(film: Union[Movie, Serial, None]) -> str:
         return 'Таких пока нет'
     return f"{film.title} код {film.code}"
 
-def compose_film_full(film_id: int) -> str:
-    return 'Полное описание сериала или фильма'
+def compose_film_full(film: Union[Movie, Serial, None]) -> str:
+    return f'Полное описание {film.title} {film.code} {film.actors}'

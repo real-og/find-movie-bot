@@ -17,9 +17,10 @@ from robot import logic
 
 channel_id = '-1001882056319'
 @dp.message_handler(commands=['start'], state="*")
-async def send_welcome(message: types.Message):
-    res = await logic.get_by_id('707b4e4d-a7a8-45b4-b439-089ed5775fe2')
-    print(res)
+async def send_welcome(message: types.Message, state: FSMContext):
+    # res = await logic.get_by_id('707b4e4d-a7a8-45b4-b439-089ed5775fe2')
+    # print(res)
+    await state.update_data(saved=[])
     await UserRegister.entrance.set()
     await message.answer(entrance, reply_markup=kb.entrance_kb)
 
@@ -57,34 +58,15 @@ async def handle_menu(callback: types.CallbackQuery):
         await callback.message.answer(but6)
     await bot.answer_callback_query(callback.id)
 
-@dp.callback_query_handler(state=UserRegister.choose_movie_genre)
-async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
-    await UserRegister.view_movie_short.set()
-    movie = await logic.get_random_movie(callback.data)
-    await state.update_data(cur_film=movie.id)
-    text = compose_random(movie)
-    await callback.message.answer(text, reply_markup=kb.about_film_kb)
-
-@dp.callback_query_handler(state=UserRegister.view_movie_short)
-async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
-    data = await state.get_data()
-    cur_film_id = data['cur_film']
-    print(cur_film_id)
-    if callback.data == 'about':
-        text = compose_film_full()
-    await bot.answer_callback_query(callback.id)
-
-
-
 
 
     
 
-@dp.callback_query_handler(state=UserRegister.choose_serial_genre)
-async def handle_menu(callback: types.CallbackQuery):
-    await UserRegister.view_series_short.set()
-    text = compose_random_series(callback.data)
-    await callback.message.answer(text, reply_markup=kb.about_film_kb)
+# @dp.callback_query_handler(state=UserRegister.choose_serial_genre)
+# async def handle_menu(callback: types.CallbackQuery):
+#     await UserRegister.view_series_short.set()
+#     text = compose_random_series(callback.data)
+#     await callback.message.answer(text, reply_markup=kb.about_film_kb)
 
 
 # Echo bot
