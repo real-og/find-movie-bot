@@ -6,10 +6,14 @@ from aiogram.dispatcher import FSMContext
 from loader import dp
 from const_texts import *
 
-from robot.models import TelegramUser
 from robot.states import UserRegister
 import robot.keyboards.keyboards as kb
 from aiogram.types import ChatMemberStatus
+from robot.models import TelegramUser, Movie
+import asyncio
+from robot import logic
+
+
 
 channel_id = '-1001882056319'
 @dp.message_handler(commands=['start'], state="*")
