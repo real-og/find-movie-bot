@@ -43,7 +43,7 @@ help_mes = """<b>Что может наш бот?</b>
 added = 'Добавлено'
 already_exists = 'Уже такое есть'
 
-no_film = 'таких фильмов пока нет'
+no_film = 'Таких фильмов пока нет 💁‍♀️'
 
 no_code = """Такого кода не существует, попробуй ввести код еще раз 🫤"""
 
@@ -60,7 +60,23 @@ def compose_saved(films: Union[Movie, Serial, None]) -> str:
 def compose_random(film: Union[Movie, Serial, None]) -> str:
     if film == None:
         return 'Таких пока нет'
-    return f"{film.title} код {film.code}"
+    text = f"""<b>{film.title} ({film.year})</b>
+
+Рейтинг: <b>{film.rating}⭐️</b>
+Страна: <b>{film.country}</b>"""
+    return text
 
 def compose_film_full(film: Union[Movie, Serial, None]) -> str:
-    return f'Полное описание {film.title} {film.code} {film.actors}'
+    if film == None:
+        return 'Таких пока нет'
+    text = f"""<b>{film.title} ({film.year})</b>
+
+Рейтинг: <b>{film.rating}⭐️</b>
+Страна: <b>{film.country}</b>\n"""
+    if film.has_oscar:
+        text += "\nПолучивший <b>оскар 🏆</b>"
+    text += f"""\nРежиссёр: <b>{film.director}</b>
+Актёры: <b>{film.actors}</b>
+
+<i>Код: {film.code}</i>"""
+    return text

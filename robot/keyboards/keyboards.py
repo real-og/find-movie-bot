@@ -24,14 +24,17 @@ genres_kb = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton('Ужас
                                                   InlineKeyboardButton('Фантастика', callback_data='sci-fi'),
                                                   )
 
-about_film_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('О фильме', callback_data='about'),
-                                           InlineKeyboardButton('Добавить в избранное', callback_data='add'),
-                                           InlineKeyboardButton('Назад', callback_data='menu'),
-                                          )
+def about_film_kb(gen):
+    kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Назад в меню ↩️', callback_data='menu'),
+                                    InlineKeyboardButton('О фильме🔎', callback_data='about'),
+                                    InlineKeyboardButton('Ещё➡️', callback_data=gen),
+                                    InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'),
+                                    )
+    return kb
 
-about_film_short_kb = InlineKeyboardMarkup().add(
-                                           InlineKeyboardButton('Добавить в избранное', callback_data='add'),
-                                           InlineKeyboardButton('Назад', callback_data='menu'),
-                                          )
+def about_film_short_kb(): 
+    return InlineKeyboardMarkup().add(InlineKeyboardButton('Назад в меню ↩️', callback_data='menu'),
+                                      InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'),
+                                      )
 
 back_to_menu_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Назад в меню ↩️', callback_data='back'))

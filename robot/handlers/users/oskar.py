@@ -20,6 +20,6 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
         return
     await state.update_data(cur_film=movie.id)
     text = compose_random(movie)
-    await callback.message.answer(text, reply_markup=kb.about_film_kb)
+    await callback.message.answer(text, reply_markup=kb.about_film_kb(callback.data))
     await UserRegister.view_movie_short.set()
     await bot.answer_callback_query(callback.id)

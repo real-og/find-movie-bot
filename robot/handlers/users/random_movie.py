@@ -12,6 +12,7 @@ from aiogram.types import ChatMemberStatus
 from robot.models import TelegramUser, Movie
 
 from robot import logic
+from aiogram.types import InputFile
 
 
 
@@ -23,32 +24,39 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
         return
     await state.update_data(cur_film=series.id)
     text = compose_random(series)
-    await callback.message.answer(text, reply_markup=kb.about_film_kb)
+    await callback.message.answer(text, reply_markup=kb.about_film_kb(callback.data))
     await UserRegister.view_movie_short.set()
     await bot.answer_callback_query(callback.id)
 
 
 @dp.callback_query_handler(state=UserRegister.choose_movie_genre)
-async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
+async def send_film(callback: types.CallbackQuery, state: FSMContext):
     movie = await logic.get_random_movie(callback.data)
     if movie == None:
         await callback.message.answer(no_film, reply_markup=kb.genres_kb)
         return
     await state.update_data(cur_film=movie.id)
     text = compose_random(movie)
-    await callback.message.answer(text, reply_markup=kb.about_film_kb)
+
+    with open(movie.cover_photo.path, 'rb') as photo:
+        await callback.message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb(callback.data))
+    
     await UserRegister.view_movie_short.set()
     await bot.answer_callback_query(callback.id)
 
 @dp.callback_query_handler(state=UserRegister.view_movie_short)
 async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
+    print(callback.data)
     data = await state.get_data()
     cur_film_id = data['cur_film']
-    print(cur_film_id)
     if callback.data == 'about':
         film = await logic.get_by_id(cur_film_id)
-        text = compose_film_full(film)
-        await callback.message.answer(text, reply_markup=kb.about_film_short_kb)  
+        await bot.edit_message_caption(callback.message.chat.id,
+                                 callback.message.message_id,
+                                 caption=compose_film_full(film))
+        await bot.edit_message_reply_markup(callback.message.chat.id,
+                                 callback.message.message_id,
+                                 reply_markup=kb.about_film_short_kb())
     elif callback.data == 'add':
         saved = data['saved']
         if cur_film_id not in saved:
@@ -60,4 +68,6 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
     elif callback.data == 'menu':
         await callback.message.answer(menu, reply_markup=kb.menu_kb)
         await UserRegister.menu.set()
+    else:
+        await send_film(callback, state)
     await bot.answer_callback_query(callback.id)
