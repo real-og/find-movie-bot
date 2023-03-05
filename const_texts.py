@@ -51,8 +51,8 @@ no_code = """Такого кода не существует, попробуй �
 
 def compose_saved(films: Union[Movie, Serial, None]) -> str:
     if (films == None) or len(films) == 0:
-        return 'пусто'
-    text = 'Твои:\n'
+        return 'Ваш список избранных пока что пуст ☹️'
+    text = 'Список фильмов/сериалов, которые вы добавили в избранное ⭐️:\n'
     for film in films:
         text += f"{film.title} {film.actors}  {film.has_oscar}\n"
     return text

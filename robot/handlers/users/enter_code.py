@@ -1,6 +1,6 @@
 from aiogram import types
 
-from loader import dp
+from loader import dp, bot
 from aiogram.dispatcher import FSMContext
 
 from const_texts import *
@@ -13,10 +13,16 @@ from robot import logic
 async def send_welcome(message: types.Message, state: FSMContext):
     movie = await logic.get_by_code(message.text)
     if movie == None:
-        await message.answer(no_code, reply_markup=kb.menu_kb)
-        await UserRegister.menu.set()
+        await message.answer(no_code, reply_markup=kb.back_to_menu_kb)
     else:
         await state.update_data(cur_film=movie.id)
         text = compose_film_full(movie)
         await message.answer(text, reply_markup=kb.about_film_short_kb) 
         await UserRegister.view_movie_short.set()
+
+@dp.callback_query_handler(lambda call: call.data == "back", state=UserRegister.receive_code)
+async def handle_menu(callback: types.CallbackQuery):
+    await callback.message.answer(menu, reply_markup=kb.menu_kb)
+    await UserRegister.menu.set()
+    await bot.answer_callback_query(callback.id)
+

@@ -33,3 +33,5 @@ about_film_short_kb = InlineKeyboardMarkup().add(
                                            InlineKeyboardButton('Добавить в избранное', callback_data='add'),
                                            InlineKeyboardButton('Назад', callback_data='menu'),
                                           )
+
+back_to_menu_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Назад в меню ↩️', callback_data='back'))
