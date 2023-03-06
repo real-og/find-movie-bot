@@ -49,14 +49,16 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
     print(callback.data)
     data = await state.get_data()
     cur_film_id = data['cur_film']
-    if callback.data == 'about':
+    if callback.data[:5] == 'about':
+        print(callback.data[:5])
+        print(callback.data[6:])
         film = await logic.get_by_id(cur_film_id)
         await bot.edit_message_caption(callback.message.chat.id,
                                  callback.message.message_id,
                                  caption=compose_film_full(film))
         await bot.edit_message_reply_markup(callback.message.chat.id,
                                  callback.message.message_id,
-                                 reply_markup=kb.about_film_short_kb())
+                                 reply_markup=kb.about_film_short_kb(callback.data[6:]))
     elif callback.data == 'add':
         saved = data['saved']
         if cur_film_id not in saved:
