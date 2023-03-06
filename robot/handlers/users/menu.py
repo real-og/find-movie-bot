@@ -12,6 +12,7 @@ from aiogram.types import ChatMemberStatus
 from robot.models import TelegramUser, Movie
 import asyncio
 from robot import logic
+from robot.handlers.users.random_movie import send_film
 
 
 
@@ -42,13 +43,16 @@ async def check_sub(callback: types.CallbackQuery):
 @dp.callback_query_handler(state=UserRegister.menu)
 async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
     if callback.data == 'rand_movie':
-        await state.update_data(is_film=True)
+        await state.update_data(type='mov')
         await callback.message.answer(genres, reply_markup=kb.genres_kb)
         await UserRegister.choose_movie_genre.set()
     elif callback.data == 'rand_series':
-        await state.update_data(is_film=False)
+        await state.update_data(type='ser')
         await callback.message.answer(genres, reply_markup=kb.genres_kb)
         await UserRegister.choose_serial_genre.set()
+    elif callback.data == 'oscar':
+        await state.update_data(type='osc')
+        await send_film(callback, state)
     elif callback.data == 'find':
         await callback.message.answer(enter_code)
         await UserRegister.receive_code.set()

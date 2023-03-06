@@ -71,8 +71,8 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
         await callback.message.answer(menu, reply_markup=kb.menu_kb)
         await UserRegister.menu.set()
     else:
-        if data['is_film']:
-            await send_film(callback, state)
-        else:
+        if data['type'] == 'ser' :
             await send_series(callback, state)
+        else:
+            await send_film(callback, state)
     await bot.answer_callback_query(callback.id)

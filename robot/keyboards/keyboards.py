@@ -12,7 +12,7 @@ menu_kb.add(InlineKeyboardButton('Случайный фильм 🍿📹', callb
             InlineKeyboardButton('Случайный сериал 🎞️🍿', callback_data='rand_series'),
             InlineKeyboardButton('Найти фильм/сериал 🔎', callback_data='find'),
             InlineKeyboardButton('Избранное ⭐️', callback_data='saved'),
-            InlineKeyboardButton('Оскар 🏆', callback_data='oskar'),
+            InlineKeyboardButton('Оскар 🏆', callback_data='oscar'),
             InlineKeyboardButton('Помощь ❓', callback_data='help_mes'))
 
 genres_kb = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton('Ужасы', callback_data='horror'),

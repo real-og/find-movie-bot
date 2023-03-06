@@ -34,6 +34,9 @@ async def get_by_code(code: str) -> Union[Movie, Serial, None]:
 
 
 async def get_random_movie(genre) -> Optional[Movie]:
+    if genre == 'oscar':
+        mov = await get_random_oscar()
+        return mov
     movies = await get_by_genre(Movie, genre)
     if len(movies) == 0:
         return None
@@ -49,8 +52,11 @@ async def get_random_oscar() -> Union[Movie, Serial, None]:
     candidates = []
     async for film in Movie.objects.filter(has_oscar=True):
         candidates.append(film)
-    async for film in Movie.objects.filter(has_oscar=True):
+
+    # uncomment to get oscar both from series and movies
+    async for film in Serial.objects.filter(has_oscar=True):
         candidates.append(film)
+        
     if len(candidates) == 0:
         return None
     return random.choice(candidates)
