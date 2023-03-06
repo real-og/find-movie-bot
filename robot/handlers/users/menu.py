@@ -42,9 +42,11 @@ async def check_sub(callback: types.CallbackQuery):
 @dp.callback_query_handler(state=UserRegister.menu)
 async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
     if callback.data == 'rand_movie':
+        await state.update_data(is_film=True)
         await callback.message.answer(genres, reply_markup=kb.genres_kb)
         await UserRegister.choose_movie_genre.set()
     elif callback.data == 'rand_series':
+        await state.update_data(is_film=False)
         await callback.message.answer(genres, reply_markup=kb.genres_kb)
         await UserRegister.choose_serial_genre.set()
     elif callback.data == 'find':
