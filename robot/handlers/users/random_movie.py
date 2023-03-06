@@ -3,7 +3,7 @@ from aiogram import types
 from loader import dp, bot
 from aiogram.dispatcher import FSMContext
 
-from loader import dp
+
 from const_texts import *
 
 from robot.states import UserRegister

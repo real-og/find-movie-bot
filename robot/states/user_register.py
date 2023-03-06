@@ -15,3 +15,4 @@ class UserRegister(StatesGroup):
     receive_code = State()
     view_movie_short = State()
     view_series_short = State()
+    mass_sending = State()

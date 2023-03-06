@@ -80,3 +80,8 @@ def compose_film_full(film: Union[Movie, Serial, None]) -> str:
 
 <i>Код: {film.code}</i>"""
     return text
+
+to_admin_mass_send = """<b>Внимание!</b>
+Следующее сообщение, которое ты сюда отправишь, будет разослано всем пользователям бота!
+
+Чтобы отменить, используй инлайн-кнопку."""
