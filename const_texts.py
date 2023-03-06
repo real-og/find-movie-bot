@@ -54,7 +54,8 @@ def compose_saved(films: Union[Movie, Serial, None]) -> str:
         return 'Ваш список избранных пока что пуст ☹️'
     text = 'Список фильмов/сериалов, которые вы добавили в избранное ⭐️:\n'
     for film in films:
-        text += f"{film.title} {film.actors}  {film.has_oscar}\n"
+        text += f"{film.code} - <b>{film.title} ({film.year})</b>\n"
+    text += "\n<i>чтобы удалить из избранного - вводи код прямо здесь</i>"
     return text
 
 def compose_random(film: Union[Movie, Serial, None]) -> str:
