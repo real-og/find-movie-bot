@@ -37,4 +37,12 @@ def about_film_short_kb(gen):
                                       InlineKeyboardButton('Ещё➡️', callback_data=gen),
                                       ).row(InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'))
 
-back_to_menu_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Назад в меню ↩️', callback_data='back'))
+about_film_code_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Меню ↩️', callback_data='menu'),
+                                    InlineKeyboardButton('О фильме🔎', callback_data='about'),
+                                    InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'),)
+
+about_film_code_short_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Меню ↩️', callback_data='menu'),
+                                    InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'),)
+
+
+back_to_menu_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Назад в меню ↩️', callback_data='menu'))

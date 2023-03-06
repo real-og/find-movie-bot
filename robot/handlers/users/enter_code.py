@@ -16,13 +16,33 @@ async def send_welcome(message: types.Message, state: FSMContext):
         await message.answer(no_code, reply_markup=kb.back_to_menu_kb)
     else:
         await state.update_data(cur_film=movie.id)
-        text = compose_film_full(movie)
-        await message.answer(text, reply_markup=kb.about_film_short_kb) 
-        await UserRegister.view_movie_short.set()
+        text = compose_random(movie)
+        with open(movie.cover_photo.path, 'rb') as photo:
+            await message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_code_kb)
 
-@dp.callback_query_handler(lambda call: call.data == "back", state=UserRegister.receive_code)
-async def handle_menu(callback: types.CallbackQuery):
-    await callback.message.answer(menu, reply_markup=kb.menu_kb)
-    await UserRegister.menu.set()
+        
+
+@dp.callback_query_handler(state=UserRegister.receive_code)
+async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    cur_film_id = data['cur_film']
+    if callback.data == 'menu':
+        await UserRegister.menu.set()
+        await callback.message.answer(menu, reply_markup=kb.menu_kb)
+    elif callback.data == 'about':
+        film = await logic.get_by_id(cur_film_id)
+        await bot.edit_message_caption(callback.message.chat.id,
+                                 callback.message.message_id,
+                                 caption=compose_film_full(film),
+                                 reply_markup=kb.about_film_code_short_kb)
+    elif callback.data == 'add':
+        saved = data['saved']
+        if cur_film_id not in saved:
+            saved.append(cur_film_id)
+            await callback.message.answer(added)
+            await state.update_data(saved=saved)
+        else:
+            await callback.message.answer(already_exists)
+        
     await bot.answer_callback_query(callback.id)
 
