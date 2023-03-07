@@ -130,3 +130,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 BOT_TOKEN = env.str('BOT_TOKEN')
 
 ADMINS_LIST = env.list('ADMINS_LIST')
+
+CHANNEL_ID = env.str('CHANNEL_ID')

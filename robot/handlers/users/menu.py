@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp
 from const_texts import *
-
+from django.conf import settings
 from robot.states import UserRegister
 import robot.keyboards.keyboards as kb
 from aiogram.types import ChatMemberStatus
@@ -16,7 +16,7 @@ from robot.handlers.users.random_movie import send_film
 
 
 
-channel_id = '-1001882056319'
+channel_id = settings.CHANNEL_ID
 @dp.message_handler(commands=['start'], state="*")
 async def send_welcome(message: types.Message, state: FSMContext):
     await state.update_data(saved=[])
