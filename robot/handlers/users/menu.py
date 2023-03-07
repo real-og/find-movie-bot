@@ -26,7 +26,7 @@ async def send_welcome(message: types.Message, state: FSMContext):
 @dp.callback_query_handler(state=UserRegister.entrance)
 async def check_sub(callback: types.CallbackQuery):
     if callback.data == 'proceed':
-        chat_member = await bot.get_chat_member(channel_id, 277961206)
+        chat_member = await bot.get_chat_member(channel_id, callback.from_user.id)
         if (chat_member.status == ChatMemberStatus.MEMBER or
             chat_member.status == ChatMemberStatus.OWNER or
             chat_member.status == ChatMemberStatus.CREATOR or
