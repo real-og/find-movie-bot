@@ -1,4 +1,4 @@
-from robot.models import Movie, Serial
+from robot.models import Movie, Serial, TgUser
 from django.db import models
 import random
 from typing import Union, Optional
@@ -74,4 +74,9 @@ async def get_by_codes(ids):
     queryset = Serial.objects.filter(id__in=ids)
     records2 = await sync_to_async(list)(queryset)
     return records + records2
+
+async def get_all_users():
+    queryset = TgUser.objects.all()
+    records = await sync_to_async(list)(queryset)
+    return records
 

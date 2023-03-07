@@ -5,7 +5,7 @@ import robot.keyboards.keyboards as kb
 from robot.states import UserRegister
 from const_texts import to_admin_mass_send, menu
 
-
+from robot import logic
 from django.conf import settings
 
 
@@ -16,6 +16,9 @@ async def confirm(message: types.Message):
 
 @dp.message_handler(filters.IDFilter(chat_id=settings.ADMINS_LIST), state=UserRegister.mass_sending)
 async def confirm(message: types.Message):
+    users = await logic.get_all_users()
+    for user in users:
+       await bot.copy_message(user.id, message.from_user.id, message.message_id)
     await message.answer('Отправлено')
     await message.answer(menu, reply_markup=kb.menu_kb)
     await UserRegister.menu.set()

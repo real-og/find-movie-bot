@@ -25,6 +25,11 @@ class TelegramUser(models.Model):
         self.user = user
         self.save()
 
+class TgUser(models.Model):
+    id = models.BigIntegerField(primary_key=True, editable=False, unique=True)
+    username = models.CharField(max_length=50, blank=True, null=True)
+    firstname = models.CharField(max_length=50, blank=True, null=True)
+
 class Movie(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     # id = models.AutoField(primary_key=True)

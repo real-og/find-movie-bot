@@ -2,23 +2,28 @@ from aiogram import types
 
 from loader import dp, bot
 from aiogram.dispatcher import FSMContext
-
+from asgiref.sync import sync_to_async
 from loader import dp
 from const_texts import *
 from django.conf import settings
 from robot.states import UserRegister
 import robot.keyboards.keyboards as kb
 from aiogram.types import ChatMemberStatus
-from robot.models import TelegramUser, Movie
+from robot.models import TelegramUser, Movie, TgUser
 import asyncio
 from robot import logic
 from robot.handlers.users.random_movie import send_film
-
+from django.contrib.auth import get_user_model
 
 
 channel_id = settings.CHANNEL_ID
 @dp.message_handler(commands=['start'], state="*")
 async def send_welcome(message: types.Message, state: FSMContext):
+
+    us = TgUser(id = message.from_user.id,
+                username = message.from_user.username,
+                firstname = message.from_user.first_name)
+    await sync_to_async(us.save)()
     await state.update_data(saved=[])
     await UserRegister.entrance.set()
     await message.answer(compose_greeting(message.from_user.first_name), reply_markup=kb.entrance_kb)
