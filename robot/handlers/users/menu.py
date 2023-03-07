@@ -59,7 +59,8 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
     elif callback.data == 'saved':
         data = await state.get_data()
         films = await logic.get_by_codes(data['saved'])
-        await callback.message.answer(compose_saved(films))
+        await callback.message.answer(compose_saved(films), reply_markup=kb.back_to_menu_kb)
+        await UserRegister.saved.set()
     elif callback.data == 'help_mes':
         await callback.message.answer(help_mes, reply_markup=kb.menu_kb)
     await bot.answer_callback_query(callback.id)

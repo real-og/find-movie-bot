@@ -17,6 +17,7 @@ async def send_series(callback: types.CallbackQuery, state: FSMContext):
     series = await logic.get_random_serial(callback.data)
     if series == None:
         await callback.message.answer(no_film)
+        await bot.answer_callback_query(callback.id)
         return
     await state.update_data(cur_film=series.id)
     text = compose_random(series)
@@ -33,6 +34,7 @@ async def send_film(callback: types.CallbackQuery, state: FSMContext):
     movie = await logic.get_random_movie(callback.data)
     if movie == None:
         await callback.message.answer(no_film)
+        await bot.answer_callback_query(callback.id)
         return
     await state.update_data(cur_film=movie.id)
     text = compose_random(movie)
