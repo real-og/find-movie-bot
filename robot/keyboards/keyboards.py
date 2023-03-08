@@ -22,6 +22,7 @@ genres_kb = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton('Ужас
                                                   InlineKeyboardButton('Романтический', callback_data='romance'),
                                                   InlineKeyboardButton('Боевик', callback_data='action'),
                                                   InlineKeyboardButton('Фантастика', callback_data='sci-fi'),
+                                                  InlineKeyboardButton('Меню ↩️', callback_data='menu'),
                                                   )
 
 def about_film_kb(gen):
