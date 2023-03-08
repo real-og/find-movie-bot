@@ -27,7 +27,7 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
 
     if callback.data == 'menu':
         await UserRegister.menu.set()
-        await callback.message.answer(menu, reply_markup=kb.menu_kb)
+        await callback.message.answer(menu, reply_markup=kb.menu_text_kb)
     
     elif callback.data == 'about':
         data = await state.get_data()

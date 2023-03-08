@@ -21,7 +21,7 @@ channel_id = settings.CHANNEL_ID
 @dp.callback_query_handler(lambda q: q.data == "proceed", state='*')
 async def check_sub_middle(callback: types.CallbackQuery):
 
-    await callback.message.answer(menu, reply_markup=kb.menu_kb)
+    await callback.message.answer(menu, reply_markup=kb.menu_text_kb)
     await UserRegister.menu.set()
     await bot.answer_callback_query(callback.id)
 
@@ -49,33 +49,63 @@ async def check_sub(callback: types.CallbackQuery):
             await UserRegister.menu.set()
             await callback.message.answer(succes_enter)
             await callback.message.answer(help_mes)
-            await callback.message.answer(menu, reply_markup=kb.menu_kb)
+            await callback.message.answer(menu, reply_markup=kb.menu_text_kb)
         else:
             await callback.message.answer(no_access, reply_markup=kb.entrance_kb)
     await bot.answer_callback_query(callback.id)
 
 
-@dp.callback_query_handler(state=UserRegister.menu)
-async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
-    if callback.data == 'rand_movie':
+# @dp.callback_query_handler(state=UserRegister.menu)
+# async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
+#     if callback.data == 'rand_movie':
+#         await state.update_data(type='mov')
+#         await callback.message.answer(genres, reply_markup=kb.genres_kb)
+#         await UserRegister.choose_movie_genre.set()
+#     elif callback.data == 'rand_series':
+#         await state.update_data(type='ser')
+#         await callback.message.answer(genres, reply_markup=kb.genres_kb)
+#         await UserRegister.choose_serial_genre.set()
+#     elif callback.data == 'oscar':
+#         await state.update_data(type='osc')
+#         await send_film(callback, state)
+#     elif callback.data == 'find':
+#         await callback.message.answer(enter_code, reply_markup=kb.back_to_menu_kb)
+#         await UserRegister.receive_code.set()
+#     elif callback.data == 'saved':
+#         data = await state.get_data()
+#         films = await logic.get_by_codes(data['saved'])
+#         await callback.message.answer(compose_saved(films), reply_markup=kb.back_to_menu_kb)
+#         await UserRegister.saved.set()
+#     elif callback.data == 'help_mes':
+#         await callback.message.answer(help_mes, reply_markup=kb.menu_kb)
+#     await bot.answer_callback_query(callback.id)
+
+
+
+
+
+@dp.message_handler(state=UserRegister.menu)
+async def handle_menu(message: types.Message, state: FSMContext):
+    if message.text == 'Случайный фильм 🍿📹':
         await state.update_data(type='mov')
-        await callback.message.answer(genres, reply_markup=kb.genres_kb)
+        await message.answer(genres, reply_markup=kb.genres_kb)
         await UserRegister.choose_movie_genre.set()
-    elif callback.data == 'rand_series':
+    elif message.text == 'Случайный сериал 🎞️🍿':
         await state.update_data(type='ser')
-        await callback.message.answer(genres, reply_markup=kb.genres_kb)
+        await message.answer(genres, reply_markup=kb.genres_kb)
         await UserRegister.choose_serial_genre.set()
-    elif callback.data == 'oscar':
+    elif message.text == 'Оскар 🏆':
         await state.update_data(type='osc')
-        await send_film(callback, state)
-    elif callback.data == 'find':
-        await callback.message.answer(enter_code, reply_markup=kb.back_to_menu_kb)
+        await send_film(message, state)
+    elif message.text == 'Найти фильм/сериал 🔎':
+        await message.answer(enter_code, reply_markup=kb.back_to_menu_kb)
         await UserRegister.receive_code.set()
-    elif callback.data == 'saved':
+    elif message.text == 'Избранное ⭐️':
         data = await state.get_data()
         films = await logic.get_by_codes(data['saved'])
-        await callback.message.answer(compose_saved(films), reply_markup=kb.back_to_menu_kb)
+        await message.answer(compose_saved(films), reply_markup=kb.back_to_menu_kb)
         await UserRegister.saved.set()
-    elif callback.data == 'help_mes':
-        await callback.message.answer(help_mes, reply_markup=kb.menu_kb)
-    await bot.answer_callback_query(callback.id)
+    elif message.text == 'Помощь ❓':
+        await message.answer(help_mes, reply_markup=kb.menu_text_kb)
+    else:
+        await message.answer('Используй кнопки', reply_markup=kb.menu_text_kb)

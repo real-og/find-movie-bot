@@ -21,7 +21,7 @@ dp = Dispatcher(bot, storage=storage)
 async def check_sub_middle(callback: types.CallbackQuery):
     await callback.message.answer(succes_enter)
     await callback.message.answer(help_mes)
-    await callback.message.answer(menu, reply_markup=kb.menu_kb)
+    await callback.message.answer(menu, reply_markup=kb.menu_text_kb)
     await UserRegister.menu.set()
     await bot.answer_callback_query(callback.id)
 

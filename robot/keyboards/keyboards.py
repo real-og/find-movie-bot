@@ -49,3 +49,11 @@ about_film_code_short_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Ме
 
 
 back_to_menu_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Назад в меню ↩️', callback_data='menu'))
+
+
+
+menu_text_kb = ReplyKeyboardMarkup([['Случайный фильм 🍿📹', 'Случайный сериал 🎞️🍿'],
+                               ['Найти фильм/сериал 🔎', 'Избранное ⭐️'],
+                               ['Оскар 🏆', 'Помощь ❓']],
+                               resize_keyboard=True,
+                               one_time_keyboard=True)

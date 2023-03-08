@@ -15,7 +15,7 @@ from robot import logic
 @dp.callback_query_handler(state=UserRegister.choose_serial_genre)
 async def send_series(callback: types.CallbackQuery, state: FSMContext):
     if callback.data == 'menu':
-        await callback.message.answer(menu, reply_markup=kb.menu_kb)
+        await callback.message.answer(menu, reply_markup=kb.menu_text_kb)
         await UserRegister.menu.set()
         await bot.answer_callback_query(callback.id)
         return
@@ -36,8 +36,21 @@ async def send_series(callback: types.CallbackQuery, state: FSMContext):
 
 @dp.callback_query_handler(state=UserRegister.choose_movie_genre)
 async def send_film(callback: types.CallbackQuery, state: FSMContext):
+    if callback.__class__ == types.Message:
+        movie = await logic.get_random_movie('oscar')
+        if movie == None:
+            await callback.answer(no_film)
+            return
+        await state.update_data(cur_film=movie.id)
+        text = compose_random(movie)
+
+        with open(movie.cover_photo.path, 'rb') as photo:
+            await callback.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb('oscar'))
+        await UserRegister.view_movie_short.set()
+        return
+
     if callback.data == 'menu':
-        await callback.message.answer(menu, reply_markup=kb.menu_kb)
+        await callback.message.answer(menu, reply_markup=kb.menu_text_kb)
         await UserRegister.menu.set()
         await bot.answer_callback_query(callback.id)
         return
@@ -80,7 +93,7 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
             await callback.message.answer(already_exists)
 
     elif callback.data == 'menu':
-        await callback.message.answer(menu, reply_markup=kb.menu_kb)
+        await callback.message.answer(menu, reply_markup=kb.menu_text_kb)
         await UserRegister.menu.set()
     else:
         if data['type'] == 'ser' :
