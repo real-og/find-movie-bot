@@ -59,7 +59,7 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
         await state.update_data(type='osc')
         await send_film(callback, state)
     elif callback.data == 'find':
-        await callback.message.answer(enter_code)
+        await callback.message.answer(enter_code, reply_markup=kb.back_to_menu_kb)
         await UserRegister.receive_code.set()
     elif callback.data == 'saved':
         data = await state.get_data()
