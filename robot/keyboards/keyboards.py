@@ -3,11 +3,11 @@ from aiogram.types import ReplyKeyboardRemove, \
     InlineKeyboardMarkup, InlineKeyboardButton
 
 entrance_kb = InlineKeyboardMarkup(row_width=2)
-sub_btn = InlineKeyboardButton('Подписаться', url='https://t.me/evgen1u5test')
-proceed_btn = InlineKeyboardButton('Подписался', callback_data='proceed')
+sub_btn = InlineKeyboardButton('Канал #1', url='https://t.me/evgen1u5test')
+proceed_btn = InlineKeyboardButton('Продолжить', callback_data='proceed')
 entrance_kb.add(sub_btn, proceed_btn)
 
-entrance_short_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Подписаться', url='https://t.me/evgen1u5test'))
+entrance_short_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Канал #1', url='https://t.me/evgen1u5test'))
 
 menu_kb = InlineKeyboardMarkup(row_width=2)
 menu_kb.add(InlineKeyboardButton('Случайный фильм 🍿📹', callback_data='rand_movie'),
@@ -41,8 +41,8 @@ def about_film_short_kb(gen):
                                       ).row(InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'))
 
 about_film_code_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Меню ↩️', callback_data='menu'),
-                                    InlineKeyboardButton('О фильме🔎', callback_data='about'),
-                                    InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'),)
+                                                InlineKeyboardButton('О фильме🔎', callback_data='about')).row(
+                                                InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'))
 
 about_film_code_short_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Меню ↩️', callback_data='menu'),
                                     InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'),)

@@ -27,7 +27,6 @@ class SubscriptionMiddleware(BaseMiddleware):
 
 
     async def on_process_update(self, update: types.Update, data: dict):
-        print(data)
         if update.message and update.message.text == '/start':
             return    
         id = update.message.from_user.id if update.message else update.callback_query.from_user.id

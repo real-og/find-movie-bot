@@ -6,7 +6,7 @@ from robot.states import UserRegister
 from const_texts import to_admin_mass_send, menu
 from loader import dp, bot
 from aiogram.dispatcher import FSMContext
-
+from const_texts import *
 from django.conf import settings
 from robot import logic
 
@@ -15,7 +15,7 @@ from robot import logic
 async def confirm(message: types.Message, state: FSMContext):
     movie = await logic.get_by_code(message.text)
     if movie == None:
-        await message.answer("Нет фильма с таким кодом в базе")
+        await message.answer(no_code_in_base)
         return
     target_id = movie.id
     data = await state.get_data()
@@ -23,9 +23,9 @@ async def confirm(message: types.Message, state: FSMContext):
     if target_id in saved_ids:
         saved_ids.remove(target_id)
         await state.update_data(saved=saved_ids)
-        await message.answer("Удалено")
+        await message.answer(deleted)
     else:
-        await message.answer("Не нашёл фильма с таким кодом")
+        await message.answer(no_code_in_base)
 
 
 @dp.callback_query_handler(state=UserRegister.saved)

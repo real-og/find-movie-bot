@@ -6,7 +6,10 @@ from asgiref.sync import sync_to_async
 from const_texts import *
 from django.conf import settings
 from robot.states import UserRegister
+
 import robot.keyboards.keyboards as kb
+import robot.keyboards.keyboards_text as kb2
+
 from aiogram.types import ChatMemberStatus
 from robot.models import TgUser
 from robot import logic
@@ -16,7 +19,6 @@ from robot.handlers.users.random_movie import send_film
 channel_id = settings.CHANNEL_ID
 @dp.message_handler(commands=['start'], state="*")
 async def send_welcome(message: types.Message, state: FSMContext):
-
     us = TgUser(id = message.from_user.id,
                 username = message.from_user.username,
                 firstname = message.from_user.first_name)
@@ -38,7 +40,7 @@ async def check_sub(callback: types.CallbackQuery):
             await callback.message.answer(help_mes)
             await callback.message.answer(menu, reply_markup=kb.menu_kb)
         else:
-            await callback.message.answer(compose_greeting(callback.from_user.first_name), reply_markup=kb.entrance_kb)
+            await callback.message.answer(no_access, reply_markup=kb.entrance_kb)
     await bot.answer_callback_query(callback.id)
 
 
@@ -66,14 +68,3 @@ async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
     elif callback.data == 'help_mes':
         await callback.message.answer(help_mes, reply_markup=kb.menu_kb)
     await bot.answer_callback_query(callback.id)
-
-
-
-
-
-
-
-
-# @dp.message_handler(state=None)
-# async def bot_echo(message: types.Message):
-#     await message.answer(message.text)
