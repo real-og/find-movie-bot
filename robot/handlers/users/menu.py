@@ -17,6 +17,14 @@ from robot.handlers.users.random_movie import send_film
 
 
 channel_id = settings.CHANNEL_ID
+
+@dp.callback_query_handler(lambda q: q.data == "proceed", state='*')
+async def check_sub_middle(callback: types.CallbackQuery):
+
+    await callback.message.answer(menu, reply_markup=kb.menu_kb)
+    await UserRegister.menu.set()
+    await bot.answer_callback_query(callback.id)
+
 @dp.message_handler(commands=['start'], state="*")
 async def send_welcome(message: types.Message, state: FSMContext):
     us = TgUser(id = message.from_user.id,

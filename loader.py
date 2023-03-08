@@ -17,6 +17,19 @@ storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
 
+@dp.callback_query_handler(lambda q: q.data == "proceed", state='*')
+async def check_sub_middle(callback: types.CallbackQuery):
+    print(1)
+    await callback.message.answer(menu, reply_markup=kb.menu_kb)
+    await UserRegister.menu.set()
+    await bot.answer_callback_query(callback.id)
+
+
+
+dp.register_chosen_inline_handler(check_sub_middle, lambda q: q.data == "proceed", state='*')
+
+
+
 channel_id = settings.CHANNEL_ID
 class SubscriptionMiddleware(BaseMiddleware):
 
@@ -37,7 +50,7 @@ class SubscriptionMiddleware(BaseMiddleware):
             chat_member.status == ChatMemberStatus.ADMINISTRATOR):
             pass
         else:
-            await bot.send_message(chat_id = id, text=no_access, reply_markup=kb.entrance_short_kb)
+            await bot.send_message(chat_id = id, text=no_access, reply_markup=kb.entrance_kb)
             raise CancelHandler()
 
 

@@ -24,18 +24,22 @@ async def send_welcome(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(state=UserRegister.receive_code)
 async def handle_menu(callback: types.CallbackQuery, state: FSMContext):
-    data = await state.get_data()
-    cur_film_id = data['cur_film']
+
     if callback.data == 'menu':
         await UserRegister.menu.set()
         await callback.message.answer(menu, reply_markup=kb.menu_kb)
+    
     elif callback.data == 'about':
+        data = await state.get_data()
+        cur_film_id = data['cur_film']
         film = await logic.get_by_id(cur_film_id)
         await bot.edit_message_caption(callback.message.chat.id,
                                  callback.message.message_id,
                                  caption=compose_film_full(film),
                                  reply_markup=kb.about_film_code_short_kb)
     elif callback.data == 'add':
+        data = await state.get_data()
+        cur_film_id = data['cur_film']
         saved = data['saved']
         if cur_film_id not in saved:
             saved.append(cur_film_id)
