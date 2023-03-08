@@ -7,6 +7,8 @@ sub_btn = InlineKeyboardButton('Подписаться', url='https://t.me/evgen
 proceed_btn = InlineKeyboardButton('Подписался', callback_data='proceed')
 entrance_kb.add(sub_btn, proceed_btn)
 
+entrance_short_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Подписаться', url='https://t.me/evgen1u5test'))
+
 menu_kb = InlineKeyboardMarkup(row_width=2)
 menu_kb.add(InlineKeyboardButton('Случайный фильм 🍿📹', callback_data='rand_movie'),
             InlineKeyboardButton('Случайный сериал 🎞️🍿', callback_data='rand_series'),

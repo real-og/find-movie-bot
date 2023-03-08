@@ -3,17 +3,14 @@ from aiogram import types
 from loader import dp, bot
 from aiogram.dispatcher import FSMContext
 from asgiref.sync import sync_to_async
-from loader import dp
 from const_texts import *
 from django.conf import settings
 from robot.states import UserRegister
 import robot.keyboards.keyboards as kb
 from aiogram.types import ChatMemberStatus
-from robot.models import TelegramUser, Movie, TgUser
-import asyncio
+from robot.models import TgUser
 from robot import logic
 from robot.handlers.users.random_movie import send_film
-from django.contrib.auth import get_user_model
 
 
 channel_id = settings.CHANNEL_ID
