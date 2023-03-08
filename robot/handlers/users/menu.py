@@ -31,7 +31,10 @@ async def send_welcome(message: types.Message, state: FSMContext):
                 username = message.from_user.username,
                 firstname = message.from_user.first_name)
     await sync_to_async(us.save)()
-    await state.update_data(saved=[])
+    data = await state.get_data()
+
+    if data.get('saved') == None:
+        await state.update_data(saved=[])
     await UserRegister.entrance.set()
     await message.answer(compose_greeting(message.from_user.first_name), reply_markup=kb.entrance_kb)
 
