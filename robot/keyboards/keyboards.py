@@ -29,7 +29,7 @@ genres_kb = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton('Ужас
 
 def about_film_kb(gen):
     kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Меню ↩️', callback_data='menu'),
-                                    InlineKeyboardButton('Подробнее', callback_data='about ' + gen),
+                                    InlineKeyboardButton('Подробнее🔎', callback_data='about ' + gen),
                                     InlineKeyboardButton('Ещё➡️', callback_data=gen),
                                     InlineKeyboardButton('Добавить в избранное⭐️', callback_data='add'),
                                     )
