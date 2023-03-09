@@ -52,6 +52,7 @@ class Movie(models.Model):
         ('thriller', 'Thriller'),
     )
     genre = models.CharField(max_length=20, choices=genre_choices)
+    about = models.TextField(default='')
 
     def __str__(self):
         return self.title
@@ -77,6 +78,7 @@ class Serial(models.Model):
         ('thriller', 'Thriller'),
     )
     genre = models.CharField(max_length=40, choices=genre_choices, blank=True)
+    about = models.TextField(default='')
 
     def __str__(self):
         return self.title

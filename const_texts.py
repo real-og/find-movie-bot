@@ -86,6 +86,7 @@ def compose_film_full(film: Union[Movie, Serial, None]) -> str:
         text += "\nПолучивший <b>оскар 🏆</b>"
     text += f"""\nРежиссёр: <b>{film.director}</b>
 Актёры: <b>{film.actors}</b>
+Cюжет: {film.about}
 
 <i>Код: {film.code}</i>"""
     return text

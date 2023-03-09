@@ -24,7 +24,7 @@ async def check_sub_middle(callback: types.CallbackQuery):
     await callback.message.answer(menu, reply_markup=kb.menu_text_kb)
     await UserRegister.menu.set()
     await bot.answer_callback_query(callback.id)
-
+    
 @dp.message_handler(commands=['start'], state="*")
 async def send_welcome(message: types.Message, state: FSMContext):
     us = TgUser(id = message.from_user.id,
