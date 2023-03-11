@@ -11,14 +11,11 @@ from django.conf import settings
 
 @dp.message_handler(filters.IDFilter(chat_id=settings.ADMINS_LIST), commands=['send'], state='*')
 async def confirm(message: types.Message):
-    print(2)
-    print(settings.ADMINS_LIST)
     await UserRegister.mass_sending.set()
     await message.answer(to_admin_mass_send, reply_markup=kb.back_to_menu_kb)
 
 @dp.message_handler(filters.IDFilter(chat_id=settings.ADMINS_LIST), state=UserRegister.mass_sending, content_types=['any'])
 async def confirm(message: types.Message):
-    print(1)
     users = await logic.get_all_users()
     for user in users:
        await bot.copy_message(user.id, message.from_user.id, message.message_id)
