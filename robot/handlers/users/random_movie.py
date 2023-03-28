@@ -26,10 +26,14 @@ async def send_series(callback: types.CallbackQuery, state: FSMContext):
         return
     await state.update_data(cur_film=series.id)
     text = compose_random(series)
-   
-    with open(series.cover_photo.path, 'rb') as photo:
-        await callback.message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb(callback.data))
-   
+
+
+    if str(series.cover_photo)[:7] == 'covers/':
+        with open(series.cover_photo.path, 'rb') as photo:
+            await callback.message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb(callback.data))
+    else:
+        await callback.message.answer_photo(photo=str(series.cover_photo), caption=text, reply_markup=kb.about_film_kb(callback.data))
+
     await UserRegister.view_movie_short.set()
     await bot.answer_callback_query(callback.id)
 
@@ -44,8 +48,13 @@ async def send_film(callback: types.CallbackQuery, state: FSMContext):
         await state.update_data(cur_film=movie.id)
         text = compose_random(movie)
 
-        with open(movie.cover_photo.path, 'rb') as photo:
-            await callback.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb('oscar'))
+        if str(movie.cover_photo)[:7] == 'covers/':
+            with open(movie.cover_photo.path, 'rb') as photo:
+                await callback.message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb(callback.data))
+        else:
+            await callback.message.answer_photo(photo=str(movie.cover_photo), caption=text, reply_markup=kb.about_film_kb(callback.data))
+
+
         await UserRegister.view_movie_short.set()
         return
 
@@ -54,6 +63,7 @@ async def send_film(callback: types.CallbackQuery, state: FSMContext):
         await UserRegister.menu.set()
         await bot.answer_callback_query(callback.id)
         return
+    
     movie = await logic.get_random_movie(callback.data)
     if movie == None:
         await callback.message.answer(no_film)
@@ -62,9 +72,13 @@ async def send_film(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(cur_film=movie.id)
     text = compose_random(movie)
 
-    with open(movie.cover_photo.path, 'rb') as photo:
-        await callback.message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb(callback.data))
-    
+    if str(movie.cover_photo)[:7] == 'covers/':
+        with open(movie.cover_photo.path, 'rb') as photo:
+            await callback.message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb(callback.data))
+    else:
+        await callback.message.answer_photo(photo=str(movie.cover_photo), caption=text, reply_markup=kb.about_film_kb(callback.data))
+
+
     await UserRegister.view_movie_short.set()
     await bot.answer_callback_query(callback.id)
 

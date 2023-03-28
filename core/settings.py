@@ -85,14 +85,15 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #     }
 # }
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'test_tiktok',
-        'USER': 'friend',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': env.str('database'),
+        'USER': env.str('user'),
+        'PASSWORD': env.str('password'),
+        'HOST': env.str('host'),
+        'PORT': env.str('port'),
     }
 }
 
