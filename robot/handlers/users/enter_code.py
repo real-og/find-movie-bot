@@ -17,8 +17,17 @@ async def send_welcome(message: types.Message, state: FSMContext):
     else:
         await state.update_data(cur_film=movie.id)
         text = compose_random(movie)
-        with open(movie.cover_photo.path, 'rb') as photo:
-            await message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_code_kb)
+
+        if str(movie.cover_photo)[:7] == 'covers/':
+            with open(movie.cover_photo.path, 'rb') as photo:
+                await message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_code_kb)
+        else:
+            await message.answer_photo(photo=str(movie.cover_photo), caption=text, reply_markup=kb.about_film_code_kb)
+
+
+
+        # with open(movie.cover_photo.path, 'rb') as photo:
+        #     await message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_code_kb)
 
         
 
