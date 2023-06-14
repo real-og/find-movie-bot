@@ -7,7 +7,7 @@ sub_btn = InlineKeyboardButton('Канал #1', url='https://t.me/wallpaperhubfo
 proceed_btn = InlineKeyboardButton('Продолжить', callback_data='proceed')
 entrance_kb.add(sub_btn, proceed_btn)
 
-entrance_short_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Канал #1', url='https://t.me/wallpaperhubforyou'))
+entrance_short_kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Канал #1', url='https://t.me/fdiisha'))
 
 menu_kb = InlineKeyboardMarkup(row_width=2)
 menu_kb.add(InlineKeyboardButton('Случайный фильм 🍿📹', callback_data='rand_movie'),
