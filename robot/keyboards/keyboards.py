@@ -3,7 +3,7 @@ from aiogram.types import ReplyKeyboardRemove, \
     InlineKeyboardMarkup, InlineKeyboardButton
 
 entrance_kb = InlineKeyboardMarkup(row_width=2)
-sub_btn = InlineKeyboardButton('Канал #1', url='https://t.me/wallpaperhubforyou')
+sub_btn = InlineKeyboardButton('Канал #1', url='https://t.me/https://t.me/fdiisha')
 proceed_btn = InlineKeyboardButton('Продолжить', callback_data='proceed')
 entrance_kb.add(sub_btn, proceed_btn)
 
