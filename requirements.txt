@@ -2,3 +2,4 @@ aiogram==2.23.1
 Django==4.1.6
 environs==9.5.0
 pillow
+psycopg2-binary
