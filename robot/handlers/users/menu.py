@@ -95,8 +95,11 @@ async def handle_menu(message: types.Message, state: FSMContext):
         await message.answer(genres, reply_markup=kb.genres_kb)
         await UserRegister.choose_serial_genre.set()
     elif message.text == 'Оскар 🏆':
+        print(message.__class__)
+        print(message.__class__ == types.Message)
         await state.update_data(type='osc')
         await send_film(message, state)
+
     elif message.text == 'Найти фильм/сериал 🔎':
         await message.answer(enter_code, reply_markup=kb.back_to_menu_kb)
         await UserRegister.receive_code.set()

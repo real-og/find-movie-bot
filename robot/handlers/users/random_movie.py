@@ -41,6 +41,7 @@ async def send_series(callback: types.CallbackQuery, state: FSMContext):
 @dp.callback_query_handler(state=UserRegister.choose_movie_genre)
 async def send_film(callback: types.CallbackQuery, state: FSMContext):
     if callback.__class__ == types.Message:
+        print('here')
         movie = await logic.get_random_movie('oscar')
         if movie == None:
             await callback.answer(no_film)
@@ -50,9 +51,9 @@ async def send_film(callback: types.CallbackQuery, state: FSMContext):
 
         if str(movie.cover_photo)[:7] == 'covers/':
             with open(movie.cover_photo.path, 'rb') as photo:
-                await callback.message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb(callback.data))
+                await callback.answer_photo(photo=photo, caption=text, reply_markup=kb.about_film_kb('oscar'))
         else:
-            await callback.message.answer_photo(photo=str(movie.cover_photo), caption=text, reply_markup=kb.about_film_kb(callback.data))
+            await callback.answer_photo(photo=str(movie.cover_photo), caption=text, reply_markup=kb.about_film_kb('oscar'))
 
 
         await UserRegister.view_movie_short.set()
